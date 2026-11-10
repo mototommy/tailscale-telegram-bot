@@ -3,10 +3,7 @@ const path = require('path');
 
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
-// Укажите ваш tailnet (обычно это имя домена из панели Tailscale или ваш логин/email до @)
-// Если у вас личный аккаунт, попробуйте указать вашу часть почты до @: "mototommy" 
-// Либо используйте специальный псевдоним "-" если поддерживается, но для tailnet лучше указывать имя точно из панели.
-const TAILNET = "mototommy"; 
+const TAILNET = "-"; 
 const API_KEY = process.env.TAILSCALE_API_KEY;
 
 const STATE_FILE = path.join(__dirname, 'state.json');
@@ -82,15 +79,12 @@ async function checkDevices() {
     for (const device of devices) {
         const hostname = device.hostname || device.name;
         
-        // Корректная проверка онлайн-статуса: 
-        // Устройство считается онлайн, если поле online равно true ИЛИ lastSeen было менее чем 7 минут назад.
         let isOnline = false;
         if (device.online === true) {
             isOnline = true;
         } else if (device.lastSeen) {
             const lastSeenDate = new Date(device.lastSeen);
             const diffMinutes = (now - lastSeenDate) / 1000 / 60;
-            // Если устройство выходило на связь за последние 7 минут (при интервале крона в 5 минут)
             if (diffMinutes <= 7) {
                 isOnline = true;
             }
@@ -101,7 +95,6 @@ async function checkDevices() {
 
         currentState[hostname] = isOnline;
 
-        // Если состояние изменилось (и это не самый первый запуск, когда prevStatus еще undefined)
         if (prevStatus !== undefined && prevStatus !== isOnline) {
             const emoji = isOnline ? "🟢" : "🔴";
             const statusText = isOnline ? "подключилось к сети" : "отключилось от сети";
