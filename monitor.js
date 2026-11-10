@@ -3,7 +3,10 @@ const path = require('path');
 
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
-const TAILNET = "mototommy36@gmail.com";
+// Укажите ваш tailnet (обычно это имя домена из панели Tailscale или ваш логин/email до @)
+// Если у вас личный аккаунт, попробуйте указать вашу часть почты до @: "mototommy" 
+// Либо используйте специальный псевдоним "-" если поддерживается, но для tailnet лучше указывать имя точно из панели.
+const TAILNET = "mototommy"; 
 const API_KEY = process.env.TAILSCALE_API_KEY;
 
 const STATE_FILE = path.join(__dirname, 'state.json');
@@ -48,7 +51,8 @@ async function checkDevices() {
     }
 
     if (!response.ok) {
-        console.error(`Tailscale API error: ${response.status} ${response.statusText}`);
+        const errText = await response.text();
+        console.error(`Tailscale API error: ${response.status} ${response.statusText} - ${errText}`);
         process.exit(1);
     }
 
@@ -73,21 +77,32 @@ async function checkDevices() {
         }
     }
 
-    let stateChanged = false;
+    const now = new Date();
 
     for (const device of devices) {
         const hostname = device.hostname || device.name;
-        // Устройство считается онлайн, если сеанс активен или пинг свежий (можно адаптировать под вашу логику)
-        const isOnline = device.clientConnectivity ? true : false; 
+        
+        // Корректная проверка онлайн-статуса: 
+        // Устройство считается онлайн, если поле online равно true ИЛИ lastSeen было менее чем 7 минут назад.
+        let isOnline = false;
+        if (device.online === true) {
+            isOnline = true;
+        } else if (device.lastSeen) {
+            const lastSeenDate = new Date(device.lastSeen);
+            const diffMinutes = (now - lastSeenDate) / 1000 / 60;
+            // Если устройство выходило на связь за последние 7 минут (при интервале крона в 5 минут)
+            if (diffMinutes <= 7) {
+                isOnline = true;
+            }
+        }
         
         const prevStatus = previousState[hostname];
-        console.log(`[Check] ${hostname} | prev: ${prevStatus} | curr: ${isOnline}`);
+        console.log(`[Check] ${hostname} | prev: ${prevStatus} | curr: ${isOnline} (lastSeen: ${device.lastSeen})`);
 
         currentState[hostname] = isOnline;
 
-        // Если состояние изменилось (и это не самый первый запуск устройства)
+        // Если состояние изменилось (и это не самый первый запуск, когда prevStatus еще undefined)
         if (prevStatus !== undefined && prevStatus !== isOnline) {
-            stateChanged = true;
             const emoji = isOnline ? "🟢" : "🔴";
             const statusText = isOnline ? "подключилось к сети" : "отключилось от сети";
             await sendTelegramMessage(`${emoji} Устройство *${hostname}* ${statusText}.`);
