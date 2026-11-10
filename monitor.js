@@ -56,15 +56,6 @@ async function checkDevices() {
     const data = await response.json();
     const devices = data.devices || [];
 
-    let currentState = {};
-    if (fs.existsSync(STATE_FILE)) {
-        try {
-            currentState = JSON.parse(fs.readFileSync(STATE_FILE, 'utf8'));
-        } catch (e) {
-            currentState = {};
-        }
-    }
-
     let previousState = {};
     if (fs.existsSync(STATE_FILE)) {
         try {
@@ -74,10 +65,14 @@ async function checkDevices() {
         }
     }
 
+    let currentState = {};
+    let stateChanged = false;
     const now = new Date();
 
     for (const device of devices) {
-        const hostname = device.hostname || device.name;
+        // Используем уникальный ID устройства во избежание конфликтов при одинаковых именах вроде "PC"
+        const deviceId = device.id;
+        const hostname = device.hostname || device.name || deviceId;
         
         let isOnline = false;
         if (device.online === true) {
@@ -90,12 +85,19 @@ async function checkDevices() {
             }
         }
         
-        const prevStatus = previousState[hostname];
-        console.log(`[Check] ${hostname} | prev: ${prevStatus} | curr: ${isOnline} (lastSeen: ${device.lastSeen})`);
+        currentState[deviceId] = {
+            hostname: hostname,
+            online: isOnline
+        };
 
-        currentState[hostname] = isOnline;
+        const prevDeviceState = previousState[deviceId];
+        const prevStatus = prevDeviceState ? prevDeviceState.online : undefined;
 
+        console.log(`[Check] ${hostname} (${deviceId}) | prev: ${prevStatus} | curr: ${isOnline}`);
+
+        // Уведомляем только если предыдущее состояние было записано И оно реально изменилось
         if (prevStatus !== undefined && prevStatus !== isOnline) {
+            stateChanged = true;
             const emoji = isOnline ? "🟢" : "🔴";
             const statusText = isOnline ? "подключилось к сети" : "отключилось от сети";
             await sendTelegramMessage(`${emoji} Устройство *${hostname}* ${statusText}.`);
