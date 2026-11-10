@@ -1,15 +1,16 @@
 name: Tailscale Monitor
 
 on:
-  schedule:
-    - cron: '*/5 * * * *'
   workflow_dispatch:
+  # schedule:
+  #   - cron: '*/5 * * * *' # если используете расписание
 
 jobs:
   check-status:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: write # Требуется для записи изменений в репозиторий
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -21,13 +22,20 @@ jobs:
 
       - name: Run status check
         env:
-          TAILSCALE_API_KEY: ${{ secrets.TAILSCALE_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TAILSCALE_API_KEY: ${{ secrets.TAILSCALE_API_KEY }}
         run: node monitor.js
+
+      - name: Pull latest changes before commit
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git pull origin main --rebase || echo "No rebase needed"
 
       - name: Commit and push changes if state changed
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: 'Update device state [skip ci]'
-          file_pattern: 'state.json'
+          file_pattern: state.json
+          commit_message: "Update device state [skip ci]"
+          skip_ci: true
