@@ -1,42 +1,102 @@
 {
-  "458580859374191": "offline",
-  "6941150186898486": "offline",
-  "7941260618337142": "offline",
-  "5100482779000233": "online",
-  "760967125906103": "online",
-  "7560395719561169": "online",
-  "7359208193870407": "offline",
-  "7635386184070217": "offline",
-  "8825306353360827": "online",
-  "4329727594187856": "online",
-  "7156098016045558": "offline",
-  "8127761822061452": "online",
-  "37769879082133": "online",
-  "5160813177937588": "online",
-  "7728720286146312": "online",
-  "2607795446324318": "online",
-  "6193989321035228": "online",
-  "5786921514654836": "offline",
-  "6548641313031171": "online",
-  "8191401325606461": "online",
-  "7990040390648104": "online",
-  "7647199357383676": "offline",
-  "7787249063783262": "online",
-  "6708618577178674": "online",
-  "3311620947821172": "offline",
-  "DESKTOP-5R024VR": false,
-  "VingA": false,
-  "DESKTOP-SO8TMCB": false,
-  "DESKTOP-UB90IGD": true,
-  "NAFTAPOS": true,
-  "HomePC": true,
-  "DESKTOP-UKLS55L": false,
-  "DESKTOP-NI0FBR1": false,
-  "DESKTOP-2GTKQEU": false,
-  "PC": true,
-  "DESKTOP-H5OUUDT": false,
-  "DESKTOP-H9J6ILA": false,
-  "OnePlus 13s": false,
-  "POCO Pad M1": true,
-  "DESKTOP-7DNSV9I": false
+  "458580859374191": {
+    "hostname": "DESKTOP-5R024VR",
+    "online": false
+  },
+  "6941150186898486": {
+    "hostname": "VingA",
+    "online": false
+  },
+  "7941260618337142": {
+    "hostname": "DESKTOP-SO8TMCB",
+    "online": false
+  },
+  "5100482779000233": {
+    "hostname": "DESKTOP-UB90IGD",
+    "online": true
+  },
+  "760967125906103": {
+    "hostname": "NAFTAPOS",
+    "online": true
+  },
+  "7560395719561169": {
+    "hostname": "HomePC",
+    "online": true
+  },
+  "7359208193870407": {
+    "hostname": "DESKTOP-UKLS55L",
+    "online": false
+  },
+  "7635386184070217": {
+    "hostname": "DESKTOP-NI0FBR1",
+    "online": false
+  },
+  "8825306353360827": {
+    "hostname": "NAFTAPOS",
+    "online": true
+  },
+  "4329727594187856": {
+    "hostname": "NAFTAPOS",
+    "online": true
+  },
+  "7156098016045558": {
+    "hostname": "DESKTOP-2GTKQEU",
+    "online": false
+  },
+  "8127761822061452": {
+    "hostname": "PC",
+    "online": true
+  },
+  "37769879082133": {
+    "hostname": "PC",
+    "online": true
+  },
+  "5160813177937588": {
+    "hostname": "PC",
+    "online": true
+  },
+  "7728720286146312": {
+    "hostname": "PC",
+    "online": true
+  },
+  "2607795446324318": {
+    "hostname": "PC",
+    "online": true
+  },
+  "6193989321035228": {
+    "hostname": "PC",
+    "online": true
+  },
+  "5786921514654836": {
+    "hostname": "DESKTOP-H5OUUDT",
+    "online": false
+  },
+  "6548641313031171": {
+    "hostname": "PC",
+    "online": true
+  },
+  "8191401325606461": {
+    "hostname": "PC",
+    "online": true
+  },
+  "7990040390648104": {
+    "hostname": "PC",
+    "online": true
+  },
+  "7647199357383676": {
+    "hostname": "DESKTOP-H9J6ILA",
+    "online": false
+  },
+  "7787249063783262": {
+    "hostname": "OnePlus 13s",
+    "online": false
+  },
+  "6708618577178674": {
+    "hostname": "POCO Pad M1",
+    "online": true
+  },
+  "3311620947821172": {
+    "hostname": "DESKTOP-7DNSV9I",
+    "online": false
+  }
 }
