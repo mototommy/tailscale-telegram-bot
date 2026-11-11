@@ -1,102 +1,102 @@
 {
   "458580859374191": {
-    "hostname": "DESKTOP-5R024VR",
+    "hostname": "4urkin",
     "online": false
   },
   "6941150186898486": {
-    "hostname": "VingA",
+    "hostname": "a-vinga",
     "online": false
   },
   "7941260618337142": {
-    "hostname": "DESKTOP-SO8TMCB",
+    "hostname": "dasha",
     "online": false
   },
   "5100482779000233": {
-    "hostname": "DESKTOP-UB90IGD",
+    "hostname": "desktop-ub90igd",
     "online": false
   },
   "760967125906103": {
-    "hostname": "NAFTAPOS",
+    "hostname": "dieselist",
     "online": true
   },
   "7560395719561169": {
-    "hostname": "HomePC",
-    "online": false
+    "hostname": "homepc",
+    "online": true
   },
   "7359208193870407": {
-    "hostname": "DESKTOP-UKLS55L",
+    "hostname": "kahovskaya-vinga",
     "online": true
   },
   "7635386184070217": {
-    "hostname": "DESKTOP-NI0FBR1",
+    "hostname": "katerina",
     "online": false
   },
   "8825306353360827": {
-    "hostname": "NAFTAPOS",
+    "hostname": "metro",
     "online": true
   },
   "4329727594187856": {
-    "hostname": "NAFTAPOS",
+    "hostname": "mikhailovka",
     "online": true
   },
   "7156098016045558": {
-    "hostname": "DESKTOP-2GTKQEU",
+    "hostname": "natasha",
     "online": false
   },
   "8127761822061452": {
-    "hostname": "PC",
+    "hostname": "nd-aluminium",
     "online": true
   },
   "37769879082133": {
-    "hostname": "PC",
+    "hostname": "nd-istomina",
     "online": true
   },
   "5160813177937588": {
-    "hostname": "PC",
+    "hostname": "nd-kahovskaya",
     "online": true
   },
   "7728720286146312": {
-    "hostname": "PC",
+    "hostname": "nd-kashyrka",
     "online": true
   },
   "2607795446324318": {
-    "hostname": "PC",
+    "hostname": "nd-peremoga",
     "online": true
   },
   "6193989321035228": {
-    "hostname": "PC",
+    "hostname": "nd-rekordnaya",
     "online": true
   },
   "5786921514654836": {
-    "hostname": "DESKTOP-H5OUUDT",
+    "hostname": "nd-test",
     "online": false
   },
   "6548641313031171": {
-    "hostname": "PC",
+    "hostname": "nd-ukrainian",
     "online": true
   },
   "8191401325606461": {
-    "hostname": "PC",
+    "hostname": "nd-voznesenka",
     "online": true
   },
   "7990040390648104": {
-    "hostname": "PC",
+    "hostname": "nd-zachinyaeva",
     "online": true
   },
   "7647199357383676": {
-    "hostname": "DESKTOP-H9J6ILA",
+    "hostname": "olga",
     "online": false
   },
   "7787249063783262": {
-    "hostname": "OnePlus 13s",
+    "hostname": "oneplus-13s",
     "online": false
   },
   "6708618577178674": {
-    "hostname": "POCO Pad M1",
+    "hostname": "poco-pad-m1",
     "online": true
   },
   "3311620947821172": {
-    "hostname": "DESKTOP-7DNSV9I",
+    "hostname": "server",
     "online": false
   }
 }
