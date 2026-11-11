@@ -68,6 +68,25 @@ function checkPing(ip) {
 }
 
 async function main() {
+  const isReportRequested = process.argv.includes('--report');
+
+  // Если это запрос отчета, мы просто опрашиваем устройства и шлем итоговую сводку,
+  // не трогая файл состояния и не отправляя аварийные уведомления.
+  if (isReportRequested) {
+    let reportLines = ["📊 *Текущий статус всех касс:*"];
+    
+    // Делаем параллельный или последовательный опрос для отчета
+    for (const dev of devices) {
+      const isOnline = await checkPing(dev.ip);
+      const icon = isOnline ? "🟢" : "🔴";
+      reportLines.push(`${icon} *${dev.objectName}* (${dev.name}): ${isOnline ? 'В сети' : 'Не в сети'}`);
+    }
+
+    await sendTelegram(reportLines.join('\n'));
+    return;
+  }
+
+  // --- Штатный фоновый режим (каждые 10 минут) ---
   let state = {};
   if (fs.existsSync(STATE_FILE)) {
     try {
@@ -78,18 +97,10 @@ async function main() {
   }
 
   const now = Date.now();
-  const isReportRequested = process.argv.includes('--report');
-  let reportLines = ["📊 *Текущий статус всех касс:*"];
 
   for (const dev of devices) {
     const isOnline = await checkPing(dev.ip);
     let devState = state[dev.id] || { isOnline: true, downSince: null, notifiedOffline: false };
-
-    // Собираем строки для отчета по команде
-    if (isReportRequested) {
-      const icon = isOnline ? "🟢" : "🔴";
-      reportLines.push(`${icon} *${dev.objectName}* (${dev.name}): ${isOnline ? 'В сети' : 'Не в сети'}`);
-    }
 
     if (!isOnline) {
       if (devState.isOnline) {
@@ -117,13 +128,8 @@ async function main() {
     state[dev.id] = devState;
   }
 
-  // Сохраняем состояние
+  // Сохраняем состояние только в фоновом режиме
   fs.writeFileSync(STATE_FILE, JSON.stringify(state, null, 2));
-
-  // Если запрошен полный отчет (например, по команде /pos), отправляем его в Telegram
-  if (isReportRequested) {
-    await sendTelegram(reportLines.join('\n'));
-  }
 }
 
 main().catch(console.error);
