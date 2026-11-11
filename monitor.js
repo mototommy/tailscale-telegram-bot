@@ -9,32 +9,87 @@ const API_KEY = process.env.TAILSCALE_API_KEY;
 const STATE_FILE = path.join(__dirname, 'state.json');
 const OFFSET_FILE = path.join(__dirname, 'offset.json');
 
-console.log("Script started successfully.");
+async function sendTelegramMessage(text, customChatId = CHAT_ID) {
+    if (!BOT_TOKEN || !customChatId) return;
+    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+    try {
+        await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: customChatId, text: text, parse_mode: 'Markdown' })
+        });
+    } catch (err) {
+        console.error("Error sending Telegram message:", err);
+    }
+}
 
 async function main() {
     if (!API_KEY) {
-        console.error("ERROR: TAILSCALE_API_KEY is missing!");
+        console.error("TAILSCALE_API_KEY is missing!");
         return;
     }
 
     const credentials = Buffer.from(`${API_KEY}:`).toString('base64');
     const url = `https://api.tailscale.com/api/v2/tailnet/${TAILNET}/devices`;
 
-    console.log("Fetching devices from Tailscale...");
     const response = await fetch(url, {
         headers: { 'Authorization': `Basic ${credentials}` }
     });
 
     if (!response.ok) {
-        const errText = await response.text();
-        console.error(`Tailscale API error: ${response.status} - ${errText}`);
+        console.error(`Tailscale API error: ${response.status}`);
         return;
     }
 
     const data = await response.json();
-    console.log(`Fetched devices count: ${data.devices ? data.devices.length : 0}`);
+    const devices = data.devices || [];
 
-    // Проверка входящих команд Telegram
+    let previousState = {};
+    if (fs.existsSync(STATE_FILE)) {
+        try {
+            previousState = JSON.parse(fs.readFileSync(STATE_FILE, 'utf8'));
+        } catch (e) { previousState = {}; }
+    }
+
+    let currentState = {};
+    let devicesStatusList = [];
+    const now = new Date();
+
+    for (const device of devices) {
+        const deviceId = device.id;
+        let rawName = device.name || device.displayName || device.hostname || deviceId;
+        if (rawName.includes('.')) rawName = rawName.split('.')[0];
+        const hostname = rawName;
+        
+        // Корректная проверка онлайн-статуса (с учетом 7 минут lastSeen)
+        let isOnline = false;
+        if (device.online === true) {
+            isOnline = true;
+        } else if (device.lastSeen) {
+            const lastSeenDate = new Date(device.lastSeen);
+            const diffMinutes = (now - lastSeenDate) / 1000 / 60;
+            if (diffMinutes <= 7) {
+                isOnline = true;
+            }
+        }
+        
+        currentState[deviceId] = { hostname, online: isOnline };
+        devicesStatusList.push({ name: hostname, online: isOnline });
+
+        const prevDeviceState = previousState[deviceId];
+        const prevStatus = prevDeviceState ? prevDeviceState.online : undefined;
+
+        // Отправка уведомления об изменении статуса
+        if (prevStatus !== undefined && prevStatus !== isOnline) {
+            const emoji = isOnline ? "🟢" : "🔴";
+            const statusText = isOnline ? "подключилось к сети" : "отключилось от сети";
+            await sendTelegramMessage(`${emoji} Устройство *${hostname}* ${statusText}.`);
+        }
+    }
+
+    fs.writeFileSync(STATE_FILE, JSON.stringify(currentState, null, 2));
+
+    // Обработка входящих команд /status
     if (BOT_TOKEN) {
         let offset = 0;
         if (fs.existsSync(OFFSET_FILE)) {
@@ -57,23 +112,17 @@ async function main() {
                     const chatId = update.message.chat.id;
 
                     if (text.startsWith('/status') || text.startsWith('/devices')) {
-                        let report = "📊 *Статус устройств Tailscale:*\n\n";
-                        for (const dev of (data.devices || [])) {
-                            let name = (dev.name || dev.displayName || dev.hostname || dev.id).split('.')[0];
-                            report += `${dev.online ? "🟢" : "🔴"} *${name}*\n`;
+                        let report = "📊 *Текущий статус устройств Tailscale:*\n\n";
+                        for (const dev of devicesStatusList) {
+                            report += `${dev.online ? "🟢" : "🔴"} *${dev.name}*\n`;
                         }
-                        
-                        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ chat_id: chatId, text: report, parse_mode: 'Markdown' })
-                        });
+                        await sendTelegramMessage(report, chatId);
                     }
                 }
             }
         }
     }
-    console.log("Script finished successfully.");
+    console.log("Monitor check completed successfully.");
 }
 
-main().catch(err => console.error("Unhandled error:", err));
+main().catch(err => console.error("Error:", err));
