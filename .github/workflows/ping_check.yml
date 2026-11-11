@@ -25,6 +25,9 @@ jobs:
           authkey: ${{ secrets.TS_TS_AUTH_KEY }}
           tags: tag:ci
 
+      - name: Wait for Tailscale to settle
+        run: sleep 10
+
       - name: Run Ping Script
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
