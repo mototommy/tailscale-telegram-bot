@@ -87,7 +87,7 @@ async function main() {
 
     fs.writeFileSync(STATE_FILE, JSON.stringify(currentState, null, 2));
 
-    // Обработка входящих команд /status с защитой от дублирования сообщений
+    // Обработка входящих команд /status с защитой от старых зависших сообщений
     if (BOT_TOKEN) {
         let offset = 0;
         if (fs.existsSync(OFFSET_FILE)) {
@@ -101,15 +101,23 @@ async function main() {
         const tgData = await tgRes.json();
 
         if (tgData.ok && tgData.result && tgData.result.length > 0) {
+            // Сразу фиксируем новый offset, чтобы закрыть пачку
             const lastUpdate = tgData.result[tgData.result.length - 1];
             fs.writeFileSync(OFFSET_FILE, JSON.stringify({ offset: lastUpdate.update_id + 1 }, null, 2));
 
             let latestCommandChatId = null;
+            const currentTimeSec = Math.floor(Date.now() / 1000);
+
             for (const update of tgData.result) {
                 if (update.message && update.message.text) {
+                    const msgTime = update.message.date || 0;
                     const text = update.message.text.trim();
-                    if (text.startsWith('/status') || text.startsWith('/devices')) {
-                        latestCommandChatId = update.message.chat.id;
+                    
+                    // Игнорируем команды, которые старше 120 секунд (защита от повторов по расписанию)
+                    if ((currentTimeSec - msgTime) < 120) {
+                        if (text.startsWith('/status') || text.startsWith('/devices')) {
+                            latestCommandChatId = update.message.chat.id;
+                        }
                     }
                 }
             }
