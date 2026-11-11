@@ -1,5 +1,8 @@
 async function handleIncomingCommands(devicesStatusList) {
-    if (!BOT_TOKEN) return;
+    if (!BOT_TOKEN) {
+        console.log("[Telegram] BOT_TOKEN is missing!");
+        return;
+    }
 
     let offset = 0;
     if (fs.existsSync(OFFSET_FILE)) {
@@ -11,15 +14,16 @@ async function handleIncomingCommands(devicesStatusList) {
         }
     }
 
-    // Запрашиваем обновления с небольшой защитой
     const url = `https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?offset=${offset}&timeout=1`;
+    console.log(`[Telegram] Checking updates with offset: ${offset}`);
+
     try {
         const res = await fetch(url);
         const data = await res.json();
         
+        console.log("[Telegram] getUpdates response:", JSON.stringify(data));
+
         if (data.ok && data.result && data.result.length > 0) {
-            // Сразу сдвигаем offset по самому последнему обновлению, 
-            // чтобы при любых повторных запусках эти сообщения больше никогда не читались
             const lastUpdateId = data.result[data.result.length - 1].update_id;
             fs.writeFileSync(OFFSET_FILE, JSON.stringify({ offset: lastUpdateId + 1 }, null, 2));
 
@@ -27,6 +31,8 @@ async function handleIncomingCommands(devicesStatusList) {
                 if (update.message && update.message.text) {
                     const text = update.message.text.trim();
                     const chatId = update.message.chat.id;
+
+                    console.log(`[Telegram] Received command: "${text}" from chatId: ${chatId}`);
 
                     if (text.startsWith('/status') || text.startsWith('/devices')) {
                         let report = "📊 *Текущий статус устройств Tailscale:*\n\n";
@@ -38,8 +44,10 @@ async function handleIncomingCommands(devicesStatusList) {
                     }
                 }
             }
+        } else {
+            console.log("[Telegram] No new messages found.");
         }
     } catch (err) {
-        console.error("Error fetching Telegram updates:", err);
+        console.error("[Telegram] Error fetching updates:", err);
     }
 }
