@@ -66,13 +66,18 @@ async function checkDevices() {
     }
 
     let currentState = {};
-    let stateChanged = false;
     const now = new Date();
 
     for (const device of devices) {
-        // Используем уникальный ID устройства во избежание конфликтов при одинаковых именах вроде "PC"
         const deviceId = device.id;
-        const hostname = device.hostname || device.name || deviceId;
+        
+        // Берём имя из Tailscale: очищаем device.name от доменной части (.ts.net), 
+        // либо используем displayName / hostname
+        let rawName = device.name || device.displayName || device.hostname || deviceId;
+        if (rawName.includes('.')) {
+            rawName = rawName.split('.')[0];
+        }
+        const hostname = rawName;
         
         let isOnline = false;
         if (device.online === true) {
@@ -95,9 +100,7 @@ async function checkDevices() {
 
         console.log(`[Check] ${hostname} (${deviceId}) | prev: ${prevStatus} | curr: ${isOnline}`);
 
-        // Уведомляем только если предыдущее состояние было записано И оно реально изменилось
         if (prevStatus !== undefined && prevStatus !== isOnline) {
-            stateChanged = true;
             const emoji = isOnline ? "🟢" : "🔴";
             const statusText = isOnline ? "подключилось к сети" : "отключилось от сети";
             await sendTelegramMessage(`${emoji} Устройство *${hostname}* ${statusText}.`);
