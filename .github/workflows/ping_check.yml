@@ -1,0 +1,40 @@
+name: Local IP Ping Monitor
+
+on:
+  schedule:
+    - cron: '*/5 * * * *' # Проверка каждые 5 минут
+  workflow_dispatch:      # Кнопка ручного запуска
+
+jobs:
+  ping-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Connect to Tailscale
+        uses: tailscale/github-action@v2
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:ci
+
+      - name: Run Ping Script
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: node ping_monitor.js
+
+      - name: Save ping_state.json
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add ping_state.json
+          git commit -m "Update ping_state.json [skip ci]" || exit 0
+          git push
+          
