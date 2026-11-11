@@ -2,8 +2,9 @@ name: Local IP Ping Monitor
 
 on:
   schedule:
-    - cron: '*/5 * * * *' # Проверка каждые 5 минут
-  workflow_dispatch:      # Кнопка ручного запуска
+    - cron: '*/10 * * * *' # Проверка каждые 10 минут
+  workflow_dispatch:      # Кнопка ручного запуска на GitHub
+  repository_dispatch:    # Триггер для внешнего запуска по API
 
 jobs:
   ping-check:
@@ -36,4 +37,3 @@ jobs:
           git add ping_state.json
           git commit -m "Update ping_state.json [skip ci]" || exit 0
           git push
-          
