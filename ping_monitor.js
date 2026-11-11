@@ -43,7 +43,7 @@ function sendTelegram(text) {
     if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) return resolve();
 
     const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-    const data = JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: text });
+    const data = JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: text, parse_mode: 'Markdown' });
 
     const req = https.request(url, {
       method: 'POST',
@@ -78,10 +78,18 @@ async function main() {
   }
 
   const now = Date.now();
+  const isReportRequested = process.argv.includes('--report');
+  let reportLines = ["📊 *Текущий статус всех касс:*"];
 
   for (const dev of devices) {
     const isOnline = await checkPing(dev.ip);
     let devState = state[dev.id] || { isOnline: true, downSince: null, notifiedOffline: false };
+
+    // Собираем строки для отчета по команде
+    if (isReportRequested) {
+      const icon = isOnline ? "🟢" : "🔴";
+      reportLines.push(`${icon} *${dev.objectName}* (${dev.name}): ${isOnline ? 'В сети' : 'Не в сети'}`);
+    }
 
     if (!isOnline) {
       if (devState.isOnline) {
@@ -109,7 +117,13 @@ async function main() {
     state[dev.id] = devState;
   }
 
+  // Сохраняем состояние
   fs.writeFileSync(STATE_FILE, JSON.stringify(state, null, 2));
+
+  // Если запрошен полный отчет (например, по команде /pos), отправляем его в Telegram
+  if (isReportRequested) {
+    await sendTelegram(reportLines.join('\n'));
+  }
 }
 
 main().catch(console.error);
