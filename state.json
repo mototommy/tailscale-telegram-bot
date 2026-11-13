@@ -15,17 +15,13 @@
     "hostname": "desktop-ub90igd",
     "online": false
   },
-  "760967125906103": {
-    "hostname": "dieselist",
-    "online": false
-  },
   "7560395719561169": {
     "hostname": "homepc",
     "online": true
   },
   "7359208193870407": {
     "hostname": "kahovskaya-vinga",
-    "online": true
+    "online": false
   },
   "7635386184070217": {
     "hostname": "katerina",
@@ -93,7 +89,7 @@
   },
   "7787249063783262": {
     "hostname": "oneplus-13s",
-    "online": false
+    "online": true
   },
   "6708618577178674": {
     "hostname": "poco-pad-m1",
