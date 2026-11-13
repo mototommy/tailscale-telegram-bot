@@ -61,7 +61,7 @@
   },
   "7728720286146312": {
     "hostname": "nd-kashyrka",
-    "online": false
+    "online": true
   },
   "2607795446324318": {
     "hostname": "nd-peremoga",
@@ -93,7 +93,7 @@
   },
   "7787249063783262": {
     "hostname": "oneplus-13s",
-    "online": false
+    "online": true
   },
   "6708618577178674": {
     "hostname": "poco-pad-m1",
