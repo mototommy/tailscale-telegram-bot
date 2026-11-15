@@ -65,7 +65,7 @@
   },
   "6193989321035228": {
     "hostname": "nd-rekordnaya",
-    "online": false
+    "online": true
   },
   "5786921514654836": {
     "hostname": "nd-test",
@@ -73,7 +73,7 @@
   },
   "6548641313031171": {
     "hostname": "nd-ukrainian",
-    "online": false
+    "online": true
   },
   "8191401325606461": {
     "hostname": "nd-voznesenka",
