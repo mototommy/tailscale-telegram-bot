@@ -73,7 +73,7 @@
   },
   "6548641313031171": {
     "hostname": "nd-ukrainian",
-    "online": false
+    "online": true
   },
   "8191401325606461": {
     "hostname": "nd-voznesenka",
@@ -85,7 +85,7 @@
   },
   "7647199357383676": {
     "hostname": "olga",
-    "online": true
+    "online": false
   },
   "7787249063783262": {
     "hostname": "oneplus-13s",
