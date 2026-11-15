@@ -45,7 +45,7 @@
   },
   "80996627765074": {
     "hostname": "nd-dieselist",
-    "online": true
+    "online": false
   },
   "37769879082133": {
     "hostname": "nd-istomina",
@@ -57,7 +57,7 @@
   },
   "7728720286146312": {
     "hostname": "nd-kashyrka",
-    "online": true
+    "online": false
   },
   "2607795446324318": {
     "hostname": "nd-peremoga",
