@@ -59,6 +59,10 @@
     "hostname": "nd-kashyrka",
     "online": true
   },
+  "3094700520725503": {
+    "hostname": "nd-kosmichna",
+    "online": true
+  },
   "6945511726237968": {
     "hostname": "nd-metro",
     "online": true
@@ -94,10 +98,6 @@
   "7787249063783262": {
     "hostname": "oneplus-13s",
     "online": false
-  },
-  "3094700520725503": {
-    "hostname": "pc",
-    "online": true
   },
   "6708618577178674": {
     "hostname": "poco-pad-m1",
