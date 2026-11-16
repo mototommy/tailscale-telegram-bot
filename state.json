@@ -27,10 +27,6 @@
     "hostname": "katerina",
     "online": false
   },
-  "8825306353360827": {
-    "hostname": "metro",
-    "online": false
-  },
   "4329727594187856": {
     "hostname": "mikhailovka",
     "online": true
@@ -97,7 +93,7 @@
   },
   "7787249063783262": {
     "hostname": "oneplus-13s",
-    "online": false
+    "online": true
   },
   "6708618577178674": {
     "hostname": "poco-pad-m1",
