@@ -5,11 +5,15 @@
   },
   "6941150186898486": {
     "hostname": "a-vinga",
-    "online": true
+    "online": false
   },
   "7941260618337142": {
     "hostname": "dasha",
     "online": false
+  },
+  "3094700520725503": {
+    "hostname": "desktop-h5ouudt",
+    "online": true
   },
   "5100482779000233": {
     "hostname": "desktop-ub90igd",
