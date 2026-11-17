@@ -13,7 +13,7 @@
   },
   "5100482779000233": {
     "hostname": "desktop-ub90igd",
-    "online": false
+    "online": true
   },
   "7560395719561169": {
     "hostname": "homepc",
@@ -69,7 +69,7 @@
   },
   "6193989321035228": {
     "hostname": "nd-rekordnaya",
-    "online": false
+    "online": true
   },
   "5786921514654836": {
     "hostname": "nd-test",
