@@ -17,7 +17,7 @@
   },
   "7560395719561169": {
     "hostname": "homepc",
-    "online": false
+    "online": true
   },
   "7359208193870407": {
     "hostname": "kahovskaya-vinga",
@@ -29,7 +29,7 @@
   },
   "4329727594187856": {
     "hostname": "mikhailovka",
-    "online": true
+    "online": false
   },
   "7156098016045558": {
     "hostname": "natasha",
@@ -93,7 +93,7 @@
   },
   "7787249063783262": {
     "hostname": "oneplus-13s",
-    "online": true
+    "online": false
   },
   "6708618577178674": {
     "hostname": "poco-pad-m1",
