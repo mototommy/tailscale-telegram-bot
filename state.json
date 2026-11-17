@@ -15,6 +15,10 @@
     "hostname": "desktop-ub90igd",
     "online": false
   },
+  "5024656339351149": {
+    "hostname": "github-runnervmccnms",
+    "online": true
+  },
   "7560395719561169": {
     "hostname": "homepc",
     "online": false
@@ -81,7 +85,7 @@
   },
   "8191401325606461": {
     "hostname": "nd-voznesenka",
-    "online": true
+    "online": false
   },
   "7990040390648104": {
     "hostname": "nd-zachinyaeva",
