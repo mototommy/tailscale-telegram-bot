@@ -57,7 +57,7 @@
   },
   "3094700520725503": {
     "hostname": "nd-kosmichna",
-    "online": true
+    "online": false
   },
   "6945511726237968": {
     "hostname": "nd-metro",
@@ -81,7 +81,7 @@
   },
   "8191401325606461": {
     "hostname": "nd-voznesenka",
-    "online": false
+    "online": true
   },
   "7990040390648104": {
     "hostname": "nd-zachinyaeva",
