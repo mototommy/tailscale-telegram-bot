@@ -5,15 +5,11 @@
   },
   "6941150186898486": {
     "hostname": "a-vinga",
-    "online": false
+    "online": true
   },
   "7941260618337142": {
     "hostname": "dasha",
     "online": false
-  },
-  "5094493598085253": {
-    "hostname": "desktop-h5ouudt",
-    "online": true
   },
   "5100482779000233": {
     "hostname": "desktop-ub90igd",
@@ -98,6 +94,10 @@
   "7787249063783262": {
     "hostname": "oneplus-13s",
     "online": false
+  },
+  "5094493598085253": {
+    "hostname": "pc",
+    "online": true
   },
   "6708618577178674": {
     "hostname": "poco-pad-m1",
