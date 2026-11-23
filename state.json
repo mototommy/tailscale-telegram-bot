@@ -85,11 +85,11 @@
   },
   "7787249063783262": {
     "hostname": "oneplus-13s",
-    "online": false
+    "online": true
   },
   "6708618577178674": {
     "hostname": "poco-pad-m1",
-    "online": false
+    "online": true
   },
   "3311620947821172": {
     "hostname": "server",
