@@ -53,7 +53,7 @@
   },
   "5094493598085253": {
     "hostname": "nd-mikhaylovka",
-    "online": false
+    "online": true
   },
   "2607795446324318": {
     "hostname": "nd-peremoga",
@@ -73,7 +73,7 @@
   },
   "8191401325606461": {
     "hostname": "nd-voznesenka",
-    "online": true
+    "online": false
   },
   "7990040390648104": {
     "hostname": "nd-zachinyaeva",
