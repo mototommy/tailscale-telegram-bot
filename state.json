@@ -93,6 +93,6 @@
   },
   "3311620947821172": {
     "hostname": "server",
-    "online": false
+    "online": true
   }
 }
