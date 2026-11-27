@@ -7,10 +7,6 @@
     "hostname": "dasha",
     "online": false
   },
-  "3476628692352887": {
-    "hostname": "github-runnervm0hi8g",
-    "online": true
-  },
   "7560395719561169": {
     "hostname": "homepc",
     "online": false
@@ -57,7 +53,7 @@
   },
   "5094493598085253": {
     "hostname": "nd-mikhaylovka",
-    "online": false
+    "online": true
   },
   "2607795446324318": {
     "hostname": "nd-peremoga",
