@@ -53,7 +53,7 @@
   },
   "5094493598085253": {
     "hostname": "nd-mikhaylovka",
-    "online": true
+    "online": false
   },
   "2607795446324318": {
     "hostname": "nd-peremoga",
@@ -89,7 +89,7 @@
   },
   "6708618577178674": {
     "hostname": "poco-pad-m1",
-    "online": false
+    "online": true
   },
   "3311620947821172": {
     "hostname": "server",
